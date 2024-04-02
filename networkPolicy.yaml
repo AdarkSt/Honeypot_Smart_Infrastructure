@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-mongodb-access
+spec:
+  podSelector:
+    matchLabels:
+      app: mongodb
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: sandbox-be
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-sandbox-be-access
+spec:
+  podSelector:
+    matchLabels:
+      app: sandbox-be
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: mongodb
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-traffic
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress

@@ -1,0 +1,5 @@
+rule: Detect Port Scanning
+desc: Detect port scanning activity from an external IP address
+condition: (fd.sip != 127.0.0.1 AND fd.sip != 10.0.0.0/8 AND fd.sip != 172.16.0.0/12 AND fd.sip != 192.168.0.0/16) AND (evt.type = accept AND (evt.dir = < OR evt.res != 2))
+output: Port scanning detected (command=%proc.cmdline connection=%fd.name remote_ip=%fd.sip)
+priority: WARNING

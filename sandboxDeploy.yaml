@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sandbox-be
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sandbox-be
+  template:
+    metadata:
+      labels:
+        app: sandbox-be
+    spec:
+      containers:
+        - name: sandbox-be
+          image: adarkst/sandbox-be:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sandbox-be
+spec:
+  selector:
+    app: sandbox-be
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sandbox-be-loadbalancer
+spec:
+  selector:
+    app: sandbox-be
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer

@@ -1,0 +1,6 @@
+{
+    "port": 5000,
+    "jwtSecret": "linker project jwt secret",
+    "mongoURi": "mongodb://mongodb:27017/js-sandbox",
+    "baseUrl": "http://localhost:5000"
+}

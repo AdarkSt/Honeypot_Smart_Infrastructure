@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: falco
+  namespace: default
+  labels:
+    app: falco
+spec:
+  selector:
+    matchLabels:
+      name: falco
+  template:
+    metadata:
+      labels:
+        name: falco
+    spec:
+      containers:
+      - name: falco
+        image: falcosecurity/falco:latest
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: falco-rules-volume
+          mountPath: /etc/falco/
+      volumes:
+      - name: falco-rules-volume
+        configMap:
+          name: falco-rules
